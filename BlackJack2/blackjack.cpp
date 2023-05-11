@@ -46,10 +46,7 @@ void BlackJack::PlayHand()
         }
     }
 
-
     int highScore = 0;
-    std::string winner;
-    GUID winnerGuid;
     for ( auto& player : players_ )
     {
         if ( !player->bustedHand() )
@@ -57,23 +54,11 @@ void BlackJack::PlayHand()
             if ( player->handValue() > highScore )
             {
                 highScore = player->handValue();
-                winner = player->name();
-                winnerGuid = player->ID();
             }
         }
     }
 
-    for ( auto& player : players_ )
-    {
-        if ( player->ID() == winnerGuid )
-        {
-            player->win();
-        }
-        else
-        {
-            player->loss();
-        }
-    }
+    int playersWon = 0;
     if ( 0 == highScore )
     {
         std::cout << "\tEveryone busted, Draw!!" << std::endl;
@@ -81,15 +66,33 @@ void BlackJack::PlayHand()
     }
     else
     {
-        std::cout << "Winner: " << winner << " hand: " << highScore << std::endl;
+        for ( auto& player : players_ )
+        {
+            if ( player->handValue() == highScore )
+            {
+                std::cout << "Winner: " << player->name() << " hand: " << highScore << std::endl;
+                player->win();
+                playersWon++;
+            }
+            else
+            {
+                player->loss();
+            }
+        }
     }
+    if ( playersWon > 1 )
+    {
+        ties_++;
+        std::cout << "\tTie game" << std::endl;
+    }
+    
 
     std::cout << "returning cards to deck: ";
     for ( auto& player : players_ )
     {
         deck_.returnCards( player->giveBackHand() );
     }
-    std::cout << deck_.deckSize() << std::endl;
+    std::cout << deck_.deckSize() << std::endl << std::endl;
 }
 
 void BlackJack::ShowWinLoss()
@@ -99,6 +102,7 @@ void BlackJack::ShowWinLoss()
         std::cout << "\t" << player->name() << " -- " << player->getWinLoss() << std::endl;
     }
     std::cout << "\tDraw -- " << draw_ << std::endl;
+    std::cout << "\tTies -- " << ties_ << std::endl;
 }
 
 void BlackJack::RemoveAllPLayers()
@@ -108,6 +112,7 @@ void BlackJack::RemoveAllPLayers()
         players_.pop_back();
     }
     draw_ = 0;
+    ties_ = 0;
 }
 
 void BlackJack::StartNewTable()

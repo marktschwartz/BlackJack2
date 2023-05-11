@@ -24,5 +24,5 @@ private:
     std::vector<std::unique_ptr<Player> > players_;
     Deck deck_;
     int draw_;
-
+    int ties_;
 };
