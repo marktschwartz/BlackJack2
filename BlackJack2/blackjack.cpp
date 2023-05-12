@@ -9,6 +9,10 @@ void BlackJack::CreatePlayer( std::string name )
     if ( !name.empty() )
     {
         players_.push_back( std::make_unique<Player>( name ) );
+
+        std::cout << std::endl;
+        std::cout << "\tNew Player Added: " << name << std::endl;
+        std::cout << std::endl;
     }
 }
 void BlackJack::PlayHand()
@@ -119,4 +123,27 @@ void BlackJack::StartNewTable()
 {
     deck_ = Deck();
     RemoveAllPLayers();
+}
+
+int BlackJack::PlayerCount()
+{
+    return players_.size();
+}
+
+void BlackJack::ListPlayers()
+{
+    std::cout << std::endl;
+    std::cout << "\tList of Players" << std::endl;
+    if ( players_.empty() )
+    {
+        std::cout << "\tNo players in List" << std::endl;
+    }
+    else
+    {
+        for ( auto& player : players_ )
+        {
+            std::cout << "\t" << player->name() << std::endl;
+        }
+    }
+    std::cout << std::endl;
 }
