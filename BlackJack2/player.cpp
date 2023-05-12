@@ -29,16 +29,13 @@ bool Player::bustedHand()
 void Player::addCard( std::unique_ptr<Card> card )
 {
     hand_.push_back( std::move( card ) );
-    if ( hand_.size() >= 2 )
-    {
-        handValue_ = getHandValue();
-    }
+    handValue_ = getHandValue();
     if ( hand_.size() > 2 )
     {
-        std::cout << name_ << " gets a new card.  ";
+        std::cout << "\t\t" << name_ << " gets a new card: " << hand_.at(hand_.size()-1)->getCardStr();
         if ( bustedHand() )
         {
-            std::cout << "BUSTED";
+            std::cout << "  !! BUSTED";
         }
         std::cout << std::endl;
     }
@@ -104,4 +101,19 @@ int Player::getHandValue()
 GUID Player::ID()
 {
     return guid_;
+}
+
+int Player::numCards()
+{
+    return (int)hand_.size();
+}
+
+std::string Player::handStr()
+{
+    std::string retVal;
+    for (auto& card : hand_)
+    {
+        retVal += card->getCardStr();
+    }
+    return retVal;
 }

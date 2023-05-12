@@ -4,11 +4,11 @@ BlackJack::BlackJack()
 {
     draw_ = 0;
 }
-void BlackJack::CreatePlayer( std::string name )
+void BlackJack::CreatePlayer(std::string name)
 {
-    if ( !name.empty() )
+    if (!name.empty())
     {
-        players_.push_back( std::make_unique<Player>( name ) );
+        players_.push_back(std::make_unique<Player>(name));
 
         std::cout << std::endl;
         std::cout << "\tNew Player Added: " << name << std::endl;
@@ -17,7 +17,7 @@ void BlackJack::CreatePlayer( std::string name )
 }
 void BlackJack::PlayHand()
 {
-    if ( deck_.deckSize() != 52 )
+    if (deck_.deckSize() != 52)
     {
         std::cout << "Something is wrong with the deck:  (getting new deck)" << std::endl;
         deck_ = Deck();
@@ -25,37 +25,54 @@ void BlackJack::PlayHand()
 
     deck_.shuffleDeck();
 
-    if ( players_.size() < 2 )
+    if (players_.size() < 2)
     {
         std::cout << "Must have at least two players." << std::endl;
         return;
     }
     std::cout << "Deal two cards to each player" << std::endl;
-    for ( int i = 0; i < 2; i++ )
+    for (int i = 0; i < 2; i++)
     {
-        for ( auto& player : players_ )
+        for (auto& player : players_)
         {
-            player->addCard( deck_.drawCard() );
+            player->addCard(deck_.drawCard());
         }
     }
 
-    for ( auto& player : players_ )
+    for (auto& player : players_)
     {
-        if ( !player->bustedHand() )
+        while (true)
         {
-            if ( player->handValue() < 16 )
+            std::cout << "\t" << player->name() << " HandValue: " << player->handValue() << std::endl;
+            std::cout << "\t\t" << "NumCards: " << player->numCards() << std::endl;
+            std::cout << "\t\t" << "Cards: " << player->handStr() << std::endl;
+            std::cout << std::endl;
+            std::cout << "\t\tDo you wish another card? (y/n)" << std::endl;
+            std::cout << "\t\t?: ";
+            std::string buffer = "";
+            std::getline(std::cin, buffer);
+            if (buffer == "y")
             {
-                player->addCard( deck_.drawCard() );
+                player->addCard(deck_.drawCard());
+                if (player->bustedHand())
+                {
+                    std::cout << "\tHand Busted" << std::endl;
+                    break;
+                }
+            }
+            else
+            {
+                break;
             }
         }
     }
 
     int highScore = 0;
-    for ( auto& player : players_ )
+    for (auto& player : players_)
     {
-        if ( !player->bustedHand() )
+        if (!player->bustedHand())
         {
-            if ( player->handValue() > highScore )
+            if (player->handValue() > highScore)
             {
                 highScore = player->handValue();
             }
@@ -63,16 +80,16 @@ void BlackJack::PlayHand()
     }
 
     int playersWon = 0;
-    if ( 0 == highScore )
+    if (0 == highScore)
     {
         std::cout << "\tEveryone busted, Draw!!" << std::endl;
         draw_++;
     }
     else
     {
-        for ( auto& player : players_ )
+        for (auto& player : players_)
         {
-            if ( player->handValue() == highScore )
+            if (player->handValue() == highScore)
             {
                 std::cout << "Winner: " << player->name() << " hand: " << highScore << std::endl;
                 player->win();
@@ -84,24 +101,24 @@ void BlackJack::PlayHand()
             }
         }
     }
-    if ( playersWon > 1 )
+    if (playersWon > 1)
     {
         ties_++;
         std::cout << "\tTie game" << std::endl;
     }
-    
+
 
     std::cout << "returning cards to deck: ";
-    for ( auto& player : players_ )
+    for (auto& player : players_)
     {
-        deck_.returnCards( player->giveBackHand() );
+        deck_.returnCards(player->giveBackHand());
     }
     std::cout << deck_.deckSize() << std::endl << std::endl;
 }
 
 void BlackJack::ShowWinLoss()
 {
-    for ( auto& player : players_ )
+    for (auto& player : players_)
     {
         std::cout << "\t" << player->name() << " -- " << player->getWinLoss() << std::endl;
     }
@@ -111,7 +128,7 @@ void BlackJack::ShowWinLoss()
 
 void BlackJack::RemoveAllPLayers()
 {
-    while( !players_.empty() )
+    while (!players_.empty())
     {
         players_.pop_back();
     }
@@ -134,13 +151,13 @@ void BlackJack::ListPlayers()
 {
     std::cout << std::endl;
     std::cout << "\tList of Players" << std::endl;
-    if ( players_.empty() )
+    if (players_.empty())
     {
         std::cout << "\tNo players in List" << std::endl;
     }
     else
     {
-        for ( auto& player : players_ )
+        for (auto& player : players_)
         {
             std::cout << "\t" << player->name() << std::endl;
         }

@@ -9,6 +9,9 @@
 #include "deck.h"
 #include "player.h"
 #include <combaseapi.h>
+#include <iostream>
+#include <string>
+#include <conio.h>
 
 class BlackJack
 {

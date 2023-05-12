@@ -25,6 +25,8 @@ public:
     void win();
     void loss();
     std::string getWinLoss();
+    int numCards();
+    std::string handStr();
 
 protected:
     int getHandValue();

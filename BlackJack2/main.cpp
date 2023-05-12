@@ -27,7 +27,7 @@ void GameMenu( BlackJack& bj )
     while ( contGame )
     {
         int option = -1;
-        std::string buffer;
+        std::string buffer = "";
         std::cout << "TABLE MENU" << std::endl;
         std::cout << "\t0 ==> Play Hand" << std::endl;
         std::cout << "\t1 ==> Show Win/Loss" << std::endl;
@@ -71,7 +71,7 @@ int main()
         std::cout << std::endl;
         std::cout << "\t3 ==> Exit Program" << std::endl;
         std::cout << "\t?:";
-        std::string buffer;
+        std::string buffer = "";
         std::getline( std::cin, buffer );
         option = atoi( buffer.c_str() );
         std::cout << std::endl;
