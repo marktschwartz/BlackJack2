@@ -24,6 +24,7 @@ public:
     void ShowWinLoss();
     int PlayerCount();
     void ListPlayers();
+    void RemovePlayer();
 
 private:
     std::vector<std::unique_ptr<Player> > players_;

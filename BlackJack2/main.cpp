@@ -8,6 +8,8 @@ enum MAIN_MENU_OPTIONS
 {
     NEW_TABLE,
     CREATE_PLAYER,
+    DELETE_PLAYER,
+    DELETE_ALL_PLAYERS,
     LIST_PLAYERS,
     EXIT_PROGRAM
 };
@@ -65,11 +67,13 @@ int main()
     {
         int option = -1;
         std::cout << "Main Menu" << std::endl;
-        std::cout << "\t0 ==> Sitdown at Table" << std::endl;
-        std::cout << "\t1 ==> Create New Player" << std::endl;
-        std::cout << "\t2 ==> List Players" << std::endl;
+        std::cout << "\t" << MAIN_MENU_OPTIONS::NEW_TABLE << " ==> Sitdown at Table" << std::endl;
+        std::cout << "\t" << MAIN_MENU_OPTIONS::CREATE_PLAYER << " ==> Create New Player" << std::endl;
+        std::cout << "\t" << MAIN_MENU_OPTIONS::DELETE_PLAYER << " ==> Delete Player" << std::endl;
+        std::cout << "\t" << MAIN_MENU_OPTIONS::DELETE_ALL_PLAYERS << " ==> Delete All Players" << std::endl;
+        std::cout << "\t" << MAIN_MENU_OPTIONS::LIST_PLAYERS << " ==> List Players" << std::endl;
         std::cout << std::endl;
-        std::cout << "\t3 ==> Exit Program" << std::endl;
+        std::cout << "\t" << MAIN_MENU_OPTIONS::EXIT_PROGRAM << " ==> Exit Program" << std::endl;
         std::cout << "\t?:";
         std::string buffer = "";
         std::getline( std::cin, buffer );
@@ -94,6 +98,12 @@ int main()
             break;
         case EXIT_PROGRAM:
             contGame = false;
+            break;
+        case MAIN_MENU_OPTIONS::DELETE_PLAYER:
+            bj.RemovePlayer();
+            break;
+        case MAIN_MENU_OPTIONS::DELETE_ALL_PLAYERS:
+            bj.RemoveAllPLayers();
             break;
         default:
             break;

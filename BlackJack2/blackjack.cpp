@@ -130,7 +130,7 @@ void BlackJack::RemoveAllPLayers()
 {
     while (!players_.empty())
     {
-        players_.pop_back();
+        players_.clear();
     }
     draw_ = 0;
     ties_ = 0;
@@ -163,4 +163,32 @@ void BlackJack::ListPlayers()
         }
     }
     std::cout << std::endl;
+}
+
+void BlackJack::RemovePlayer()
+{
+    std::cout << std::endl;
+    std::cout << "\t\tRemove Player:" << std::endl;
+    for (int i = 0; i < players_.size(); i++)
+    {
+        std::cout << "\t\t\t" << i << " ==> " << players_.at(i)->name() << std::endl;
+    }
+    std::cout << std::endl;
+    std::cout << "\t\t\t?# ";
+    std::string buffer;
+    std::getline(std::cin, buffer);
+
+    int idx = atoi(buffer.c_str());
+    if (errno == ERANGE)
+    {
+        return;
+    }
+    if (idx >= players_.size() || idx < 0)
+    {
+        return;
+    }
+    std::cout << "\t\tRemoving Player: " << players_.at(idx)->name() << std::endl;
+    players_.erase(players_.begin() + idx);
+    
+    ListPlayers();
 }
