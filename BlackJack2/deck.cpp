@@ -49,7 +49,7 @@ void Deck::returnCardsFromDiscardPile()
     }
 }
 
-void Deck::returnCardsToDiscardPile( std::vector<std::unique_ptr<Card> > retCards )
+void Deck::discardHand( std::vector<std::unique_ptr<Card> > retCards )
 {
     while ( !retCards.empty() )
     {

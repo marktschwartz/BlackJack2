@@ -38,7 +38,19 @@ void GameMenu(BlackJack& bj)
         std::cout << std::endl;
         std::cout << "\t?: ";
         std::getline(std::cin, buffer);
-        option = atoi(buffer.c_str());
+        try
+        {
+            option = std::stoi(buffer);
+        }
+        catch (std::out_of_range)
+        {
+            option = -1;
+        }
+        catch (std::invalid_argument)
+        {
+            option = -1;
+        }
+
         std::cout << std::endl;
         switch (option)
         {
@@ -60,14 +72,17 @@ void GameMenu(BlackJack& bj)
 int main()
 {
     std::cout << "Hello BlackJack!\n";
-    BlackJack bj( 7 );
-    
+    BlackJack bj(7);
+
     bool contGame = true;
     while (contGame)
     {
         int option = -1;
         std::cout << "Main Menu" << std::endl;
-        std::cout << "\t" << MAIN_MENU_OPTIONS::NEW_TABLE << " ==> Sitdown at Table" << std::endl;
+        if (bj.GetNumPlayers() > 1)
+        {
+            std::cout << "\t" << MAIN_MENU_OPTIONS::NEW_TABLE << " ==> Sitdown at Table" << std::endl;
+        }
         std::cout << "\t" << MAIN_MENU_OPTIONS::CREATE_PLAYER << " ==> Create New Player" << std::endl;
         std::cout << "\t" << MAIN_MENU_OPTIONS::DELETE_PLAYER << " ==> Delete Player" << std::endl;
         std::cout << "\t" << MAIN_MENU_OPTIONS::DELETE_ALL_PLAYERS << " ==> Delete All Players" << std::endl;
@@ -77,16 +92,25 @@ int main()
         std::cout << "\t?:";
         std::string buffer = "";
         std::getline(std::cin, buffer);
-        option = atoi(buffer.c_str());
-        if (errno == ERANGE)
+
+        try
+        {
+            option = std::stoi(buffer);
+        }
+        catch (std::out_of_range)
         {
             option = -1;
         }
+        catch (std::invalid_argument)
+        {
+            option = -1;
+        }
+
         std::cout << std::endl;
         switch (option)
         {
         case MAIN_MENU_OPTIONS::NEW_TABLE:
-            if (bj.PlayerCount() > 1)
+            if (bj.GetNumPlayers() > 1)
             {
                 GameMenu(bj);
             }

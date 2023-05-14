@@ -22,11 +22,11 @@ public:
     void RemoveAllPLayers();
     void PlayHand();
     void ShowWinLoss();
-    int PlayerCount();
     void ListPlayers();
     void RemovePlayer();
     void SetNumDecks(int numDecks);
     int GetNumDecks();
+    int GetNumPlayers();
 
 private:
     std::vector<std::unique_ptr<Player> > players_;

@@ -17,6 +17,12 @@ void BlackJack::CreatePlayer(std::string name)
         std::cout << std::endl;
     }
 }
+
+int BlackJack::GetNumPlayers()
+{
+    return players_.size();
+}
+
 void BlackJack::PlayHand()
 {
     if (deck_.deckSize() < 13)
@@ -25,20 +31,22 @@ void BlackJack::PlayHand()
         deck_.clear();
         deck_.setNumDecks(deck_.numDecks());
         deck_.clearDiscardPile();
+        deck_.shuffleDeck();
     }
-    deck_.shuffleDeck();
 
     if (players_.size() < 2)
     {
         std::cout << "Must have at least two players." << std::endl;
         return;
     }
+
     std::cout << "Deal two cards to each player" << std::endl;
     for (int i = 0; i < 2; i++)
     {
         for (auto& player : players_)
         {
             player->addCard(deck_.drawCard());
+            std::cout << "\tCard remaining in shoe: " << deck_.deckSize() << std::endl;
         }
     }
 
@@ -104,6 +112,7 @@ void BlackJack::PlayHand()
             }
         }
     }
+
     if (playersWon > 1)
     {
         ties_++;
@@ -112,7 +121,7 @@ void BlackJack::PlayHand()
 
     for (auto& player : players_)
     {
-        deck_.returnCardsToDiscardPile(player->giveBackHand());
+        deck_.discardHand(player->giveBackHand());
     }
     std::cout << "\tCard remaining in shoe: " << deck_.deckSize() << std::endl;
     std::cout << "\tDiscard Pile: " << deck_.discardPileSize() << std::endl << std::endl << std::endl;
@@ -146,11 +155,6 @@ void BlackJack::StartNewTable()
     deck_.shuffleDeck();
 }
 
-int BlackJack::PlayerCount()
-{
-    return players_.size();
-}
-
 void BlackJack::ListPlayers()
 {
     std::cout << std::endl;
@@ -182,17 +186,26 @@ void BlackJack::RemovePlayer()
     std::string buffer;
     std::getline(std::cin, buffer);
 
-    int idx = atoi(buffer.c_str());
-    if (errno == ERANGE)
+    int option = -1;
+    try
+    {
+        option = std::stoi(buffer);
+    }
+    catch (std::out_of_range)
+    {
+        option = -1;
+    }
+    catch (std::invalid_argument)
+    {
+        option = -1;
+    }
+
+    if (option >= players_.size() || option < 0)
     {
         return;
     }
-    if (idx >= players_.size() || idx < 0)
-    {
-        return;
-    }
-    std::cout << "\t\tRemoving Player: " << players_.at(idx)->name() << std::endl;
-    players_.erase(players_.begin() + idx);
+    std::cout << "\t\tRemoving Player: " << players_.at(option)->name() << std::endl;
+    players_.erase(players_.begin() + option);
     
     ListPlayers();
 }

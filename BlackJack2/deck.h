@@ -18,7 +18,7 @@ public:
     void shuffleDeck();
     std::unique_ptr<Card> drawCard();
     void returnCardsFromDiscardPile();
-    void returnCardsToDiscardPile( std::vector<std::unique_ptr<Card> > retCards );
+    void discardHand( std::vector<std::unique_ptr<Card> > retCards );
     void clear();
     int numDecks();
     void setNumDecks(int numDecks);

@@ -4,7 +4,7 @@
 
 Player::Player( std::string name ) : name_( name )
 {
-    CoCreateGuid( &guid_ );
+    HRESULT hr = CoCreateGuid( &guid_ );
 };
 
 std::vector<std::unique_ptr<Card> > Player::giveBackHand()
