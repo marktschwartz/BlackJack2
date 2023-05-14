@@ -1,8 +1,10 @@
 #include "blackjack.h"
 
-BlackJack::BlackJack()
+BlackJack::BlackJack(int numDecks)
 {
+    deck_.setNumDecks(numDecks);
     draw_ = 0;
+    ties_ = 0;
 }
 void BlackJack::CreatePlayer(std::string name)
 {
@@ -17,12 +19,13 @@ void BlackJack::CreatePlayer(std::string name)
 }
 void BlackJack::PlayHand()
 {
-    if (deck_.deckSize() != 52)
+    if (deck_.deckSize() < 13)
     {
-        std::cout << "Something is wrong with the deck:  (getting new deck)" << std::endl;
-        deck_ = Deck();
+        std::cout << "getting new deck..." << std::endl;
+        deck_.clear();
+        deck_.setNumDecks(deck_.numDecks());
+        deck_.clearDiscardPile();
     }
-
     deck_.shuffleDeck();
 
     if (players_.size() < 2)
@@ -107,13 +110,12 @@ void BlackJack::PlayHand()
         std::cout << "\tTie game" << std::endl;
     }
 
-
-    std::cout << "returning cards to deck: ";
     for (auto& player : players_)
     {
-        deck_.returnCards(player->giveBackHand());
+        deck_.returnCardsToDiscardPile(player->giveBackHand());
     }
-    std::cout << deck_.deckSize() << std::endl << std::endl;
+    std::cout << "\tCard remaining in shoe: " << deck_.deckSize() << std::endl;
+    std::cout << "\tDiscard Pile: " << deck_.discardPileSize() << std::endl << std::endl << std::endl;
 }
 
 void BlackJack::ShowWinLoss()
@@ -134,12 +136,14 @@ void BlackJack::RemoveAllPLayers()
     }
     draw_ = 0;
     ties_ = 0;
+    deck_.shuffleDeck();
+    deck_.clearDiscardPile();
 }
 
 void BlackJack::StartNewTable()
 {
-    deck_ = Deck();
     RemoveAllPLayers();
+    deck_.shuffleDeck();
 }
 
 int BlackJack::PlayerCount()
@@ -191,4 +195,14 @@ void BlackJack::RemovePlayer()
     players_.erase(players_.begin() + idx);
     
     ListPlayers();
+}
+
+void BlackJack::SetNumDecks(int numDecks)
+{
+    deck_.setNumDecks(numDecks);
+}
+
+int BlackJack::GetNumDecks()
+{
+    return deck_.numDecks();
 }

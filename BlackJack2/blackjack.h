@@ -16,7 +16,7 @@
 class BlackJack
 {
 public:
-    BlackJack();
+    BlackJack(int numDecks);
     void StartNewTable();
     void CreatePlayer( std::string name );
     void RemoveAllPLayers();
@@ -25,6 +25,8 @@ public:
     int PlayerCount();
     void ListPlayers();
     void RemovePlayer();
+    void SetNumDecks(int numDecks);
+    int GetNumDecks();
 
 private:
     std::vector<std::unique_ptr<Player> > players_;
