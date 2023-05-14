@@ -73,7 +73,7 @@ void Deck::setNumDecks(int numDecks)
     if (numDecks != numDecks_)
     {
         cards_.clear();
-        
+        discardPile_.clear();
         numDecks_ = numDecks;
 
         createCards();

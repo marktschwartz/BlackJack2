@@ -30,14 +30,13 @@ int BlackJack::GetNumPlayers()
 
 void BlackJack::PlayHand()
 {
-    if ( deck_.deckSize() < 10 * players_.size() )
+    int minimumDeckSize = 7 + ( players_.size() * 2 );
+    std::cout << "getting new deck..." << std::endl;
+    if ( deck_.deckSize() / 52 < minimumDeckSize )
     {
-        std::cout << "getting new deck..." << std::endl;
-        deck_.clear();
-        deck_.setNumDecks( deck_.numDecks() );
-        deck_.clearDiscardPile();
-        deck_.shuffleDeck();
+        deck_.setNumDecks( minimumDeckSize );
     }
+    deck_.shuffleDeck();
 
     if ( players_.size() < 2 )
     {
