@@ -33,4 +33,5 @@ private:
     Deck deck_;
     int draw_;
     int ties_;
+    int button_;
 };
